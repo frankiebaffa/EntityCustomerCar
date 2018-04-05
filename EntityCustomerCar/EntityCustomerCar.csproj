@@ -49,15 +49,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Car.cs" />
-    <Compile Include="Customer.cs" />
-    <Compile Include="CustomerCarContext.cs" />
+    <Compile Include="Methods\DeleteMethod.cs" />
+    <Compile Include="Methods\AddMethod.cs" />
+    <Compile Include="Classes\Car.cs" />
+    <Compile Include="Classes\Customer.cs" />
+    <Compile Include="Classes\CustomerCarContext.cs" />
+    <Compile Include="Methods\InitializeMethod.cs" />
+    <Compile Include="Methods\LoopMethod.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Methods\ViewMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
