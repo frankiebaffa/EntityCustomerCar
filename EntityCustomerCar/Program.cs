@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using EntityCustomerCar.Methods;
 
 namespace EntityCustomerCar
 {
@@ -11,7 +12,12 @@ namespace EntityCustomerCar
     {
         static void Main(string[] args)
         {
-            InitializeMethod.Initialize();
+            bool continueRun = true;
+
+            while (continueRun == true)
+            {
+                continueRun = LoopMethod.LogicLoop(continueRun);
+            }
         }
     }
 }

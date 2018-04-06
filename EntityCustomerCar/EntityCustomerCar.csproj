@@ -54,7 +54,6 @@
     <Compile Include="Classes\Car.cs" />
     <Compile Include="Classes\Customer.cs" />
     <Compile Include="Classes\CustomerCarContext.cs" />
-    <Compile Include="Methods\InitializeMethod.cs" />
     <Compile Include="Methods\LoopMethod.cs" />
     <Compile Include="Methods\PhoneMethod.cs" />
     <Compile Include="Program.cs" />
