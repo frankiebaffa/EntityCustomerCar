@@ -9,6 +9,19 @@ namespace EntityCustomerCar
 {
     public class Car
     {
+        public Car()
+        { }
+
+        public Car(int year, string make, string model, string color, Guid ownerId)
+        {
+            Id = Guid.NewGuid();
+            Year = year;
+            Make = make;
+            Model = model;
+            Color = color;
+            OwnerId = ownerId;
+        }
+
         public Guid Id { get; set; }
         public int Year { get; set; }
         public string Make { get; set; }

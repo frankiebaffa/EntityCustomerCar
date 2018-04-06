@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityCustomerCar.Methods;
 
 namespace EntityCustomerCar
 {
@@ -24,20 +25,12 @@ namespace EntityCustomerCar
                 Console.WriteLine();
 
                 //  Accept phone number as input, parse as string
-                long phone = PhoneAdd();
+                long phone = PhoneMethod.PhoneAdd();
 
                 //  Grab current DateTime
                 DateTime dateAdded = DateTime.Now;
 
-                //  Create new customer object from input
-                var customer = new Customer()
-                {
-                    Id = Guid.NewGuid(),
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Phone = phone,
-                    DateAdded = dateAdded
-                };
+                var customer = new Customer(firstName, lastName, phone, dateAdded);
 
                 //  Accept year of vehicle from input
                 Console.WriteLine("Enter Year of Customer's Vehicle:");
@@ -59,16 +52,7 @@ namespace EntityCustomerCar
                 string color = Console.ReadLine();
                 Console.WriteLine();
 
-                //  Create new car object from inputs
-                var car = new Car()
-                {
-                    Id = Guid.NewGuid(),
-                    Year = year,
-                    Make = make,
-                    Model = model,
-                    Color = color,
-                    OwnerId = customer.Id
-                };
+                var car = new Car(year, make, model, color, customer.Id);
 
                 //  Add car to customer object
                 customer.Car = car;
@@ -79,45 +63,5 @@ namespace EntityCustomerCar
                 ctx.SaveChanges();
             }
         }
-
-        public static long PhoneAdd()
-        {
-            Console.WriteLine("Enter Customer's Phone Number");
-            bool phoneResult = false;
-            long phone = 0;
-
-            //  Loop until a proper phone number is added
-            while (phoneResult == false)
-            {
-                phoneResult = long.TryParse(Console.ReadLine(), out phone);
-                Console.WriteLine();
-
-                if (phoneResult == false)
-                {
-                    Console.WriteLine("Please Enter a Valid Phone Number (No Letters or Symbols)");
-                }
-                else
-                {
-                    phoneResult = CheckPhoneLength(phone, phoneResult);
-                }
-            }
-
-            return phone;
-        }
-        public static bool CheckPhoneLength(long phone, bool phoneResult)
-        {
-            if (phone > 9999999999
-                || phone < 1000000000)
-            {
-                Console.WriteLine("Please Enter a Valid Phone Number.");
-                phoneResult = false;
-            }
-            else
-            {
-                phoneResult = true;
-            }
-            return phoneResult;
-        }
-
     }
 }

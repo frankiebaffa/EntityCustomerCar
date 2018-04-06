@@ -9,6 +9,17 @@ namespace EntityCustomerCar
 {
     public class Customer
     {
+        public Customer()
+        { }
+
+        public Customer(string firstName, string lastName, long phone, DateTime dateAdded)
+        {
+            Id = Guid.NewGuid();
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            DateAdded = dateAdded;
+        }
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
