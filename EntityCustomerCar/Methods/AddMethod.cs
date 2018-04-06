@@ -83,16 +83,40 @@ namespace EntityCustomerCar
         public static long PhoneAdd()
         {
             Console.WriteLine("Enter Customer's Phone Number");
-            bool phoneLoop = false;
+            bool phoneResult = false;
             long phone = 0;
-            while (phoneLoop == false)
+
+            //  Loop until a proper phone number is added
+            while (phoneResult == false)
             {
-                phone = long.Parse(Console.ReadLine());
+                phoneResult = long.TryParse(Console.ReadLine(), out phone);
                 Console.WriteLine();
-                phoneLoop = true;
+
+                if (phoneResult == false)
+                {
+                    Console.WriteLine("Please Enter a Valid Phone Number (No Letters or Symbols)");
+                }
+                else
+                {
+                    phoneResult = CheckPhoneLength(phone, phoneResult);
+                }
             }
 
             return phone;
+        }
+        public static bool CheckPhoneLength(long phone, bool phoneResult)
+        {
+            if (phone > 9999999999
+                || phone < 1000000000)
+            {
+                Console.WriteLine("Please Enter a Valid Phone Number.");
+                phoneResult = false;
+            }
+            else
+            {
+                phoneResult = true;
+            }
+            return phoneResult;
         }
 
     }
