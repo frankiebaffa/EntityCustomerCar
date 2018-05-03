@@ -17,33 +17,60 @@ namespace EntityCustomerCar
                 Console.WriteLine("Enter Customer Last Name You Wish To Delete");
                 string deleteCustomer = Console.ReadLine();
                 Console.WriteLine();
-
-                //  Query customers for matches
-                var queryDelete = from x in ctx.Customers
-                                  where x.LastName == deleteCustomer
-                                  select x;
-
-                foreach (var item in queryDelete)
-                {
-                    string queryResult = string.Format(
-                        "{0} {1} - {2}", item.FirstName, item.LastName,
-                        item.Phone);
-
-                    Console.WriteLine(queryResult);
-                    Console.WriteLine();
-                }
+                
+                var queryDelete = ctx.Customers.Where(x => x.LastName == deleteCustomer);
 
                 if (queryDelete.Count() > 1)
                 {
 
                     Console.WriteLine(string.Format("There are multiple {0}'s in the system." +
-                        " Please enter the phone number of whome you wish to delete.", deleteCustomer));
-
-                    long deleteCustomerPhone = long.Parse(Console.ReadLine());
+                        " Please enter the number left of the customer you wish to delete.",
+                        deleteCustomer));
                     Console.WriteLine();
 
+                    string deleteResult = "";
+
+                    int i = 0;
+                    Dictionary<int, string> deleteDictionary = new Dictionary<int, string>();
+                    var query = from x in ctx.Customers.Where(x => x.LastName == deleteCustomer)
+                                join y in ctx.Cars
+                                on x.Id equals y.OwnerId
+                                orderby x.LastName
+
+                                //  Place custom/newely joined table in query
+                                select new
+                                {
+                                    x.FirstName,
+                                    x.LastName,
+                                    x.Phone,
+                                    y.Year,
+                                    y.Make,
+                                    y.Model,
+                                    y.Color,
+                                    x.Id
+                                };
+
+                    foreach (var item in query)
+                    {
+                        i++;
+                        deleteResult = string.Format("{0}: {1} {2} - {3} : {4} {5} {6} ({7})",
+                        i, item.FirstName, item.LastName, item.Phone,
+                        item.Year, item.Make, item.Model, item.Color);
+                        deleteDictionary.Add(i, item.Id.ToString());
+
+                        Console.WriteLine(deleteResult);
+                    }
+
+                    Console.WriteLine();
+                    int deleteCustomerInt = int.Parse(Console.ReadLine());
+                    Console.WriteLine();
+
+                    string deleteDictionaryValue = (from x in deleteDictionary
+                                                    where x.Key == deleteCustomerInt
+                                                    select x.Value).Single();
+
                     var delete = (from x in ctx.Customers
-                                  where x.Phone == deleteCustomerPhone
+                                  where x.Id.ToString() == deleteDictionaryValue
                                   select x).Single();
 
                     var carDelete = (from x in ctx.Cars
@@ -59,6 +86,16 @@ namespace EntityCustomerCar
                 }
                 else if (queryDelete.Count() == 1)
                 {
+                    foreach (var item in queryDelete)
+                    {
+                        string queryResult = string.Format(
+                            "{0} {1} - {2}", item.FirstName, item.LastName,
+                            item.Phone);
+
+                        Console.WriteLine(queryResult);
+                        Console.WriteLine("DELETED");
+                        Console.WriteLine();
+                    }
 
                     //  Use customer last name to locate customer
                     var delete = (from x in ctx.Customers
